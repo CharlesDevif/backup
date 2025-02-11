@@ -30,15 +30,10 @@ jobs:
         run: |
           pytest --maxfail=1 -q
 
-          - name: Notification par e-mail
-          if: always()
-          uses: dawidd6/action-send-mail@v3
+          - name: Send mail
+          uses: dawidd6/action-send-mail@v4
           with:
-            server_address: smtp.gmail.com
-            server_port: 465
-            secure: true
-            username: ${{ secrets.EMAIL_USERNAME }}
-            password: ${{ secrets.EMAIL_PASSWORD }}
+            connection_url: smtp+ssl://${{ secrets.EMAIL_USERNAME }}:${{ secrets.EMAIL_PASSWORD }}@smtp.gmail.com:465
             subject: "Résultat des tests CI pour le script de sauvegarde"
             html_body: |
               <html>
@@ -47,7 +42,7 @@ jobs:
                     <h2 style="color: #2E86C1; text-align: center;">Résultat des tests CI</h2>
                     <p>Bonjour,</p>
                     <p>Les tests de l'intégration continue pour le script de sauvegarde ont été exécutés avec succès.</p>
-                    <p>Pour plus de détails, veuillez consulter l'onglet <a href="${{ github.server_url }}/${{ github.repository }}/actions" style="color: #2874A6; text-decoration: none;">Actions</a> sur GitHub.</p>
+                    <p>Pour plus de détails, veuillez consulter l'onglet <a href="https://github.com/CharlesDevif/backup/actions" style="color: #2874A6; text-decoration: none;">Actions</a> sur GitHub.</p>
                     <br>
                     <p>Cordialement,</p>
                     <p><strong>L'équipe CI</strong></p>
