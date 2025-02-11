@@ -1,0 +1,47 @@
+name: CI Tests and Email Notification
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Installation des dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Exécution des tests
+        id: pytest
+        run: |
+          pytest --maxfail=1 --disable-warnings -q
+
+      - name: Notification par e-mail
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "CI Test Result for Backup Script"
+          body: |
+            Les tests CI pour le script de sauvegarde sont terminés.
+            Consultez l'onglet Actions pour les détails.
+          to: cedric.surquin@gmail.com
+          from: ${{ secrets.EMAIL_USERNAME }}
+          secure: true
