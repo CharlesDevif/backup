@@ -54,5 +54,5 @@ jobs:
                 </div>
               </body>
             </html>
-          to: charlesdevif@hotmail.fr
+          to: cedric.surquin@gmail.com
           from: ${{ secrets.EMAIL_USERNAME }}
