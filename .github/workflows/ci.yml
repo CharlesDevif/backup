@@ -28,7 +28,7 @@ jobs:
       - name: Exécution des tests
         id: pytest
         run: |
-          pytest --maxfail=1 --disable-warnings -q
+          pytest --maxfail=1 -q
 
           - name: Notification par e-mail
           if: always()
