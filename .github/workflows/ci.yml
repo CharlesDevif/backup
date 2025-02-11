@@ -42,7 +42,7 @@ jobs:
           subject: 'Résultat des tests CI pour le script de sauvegarde'
           html_body: |
             <html>
-              <body style="font-family: Arial, sans-serif; line-height: 1.5; background-color: #f7f7f7; padding: 20px;">
+              <body style="font-family: Arial; line-height: 1.5; background-color: #f7f7f7; padding: 20px;">
                 <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                   <h2 style="color: #2E86C1; text-align: center;">Résultat des tests CI</h2>
                   <p>Bonjour,</p>
