@@ -28,26 +28,20 @@ jobs:
       - name: Exécution des tests
         id: pytest
         run: |
-          pytest --maxfail=1 -q
+          pytest --maxfail=1 --disable-warnings -q
 
-          - name: Send mail
-          uses: dawidd6/action-send-mail@v4
-          with:
-            connection_url: smtp+ssl://${{ secrets.EMAIL_USERNAME }}:${{ secrets.EMAIL_PASSWORD }}@smtp.gmail.com:465
-            subject: "Résultat des tests CI pour le script de sauvegarde"
-            html_body: |
-              <html>
-                <body style="font-family: Arial, sans-serif; line-height: 1.5; background-color: #f7f7f7; padding: 20px;">
-                  <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h2 style="color: #2E86C1; text-align: center;">Résultat des tests CI</h2>
-                    <p>Bonjour,</p>
-                    <p>Les tests de l'intégration continue pour le script de sauvegarde ont été exécutés avec succès.</p>
-                    <p>Pour plus de détails, veuillez consulter l'onglet <a href="https://github.com/CharlesDevif/backup/actions" style="color: #2874A6; text-decoration: none;">Actions</a> sur GitHub.</p>
-                    <br>
-                    <p>Cordialement,</p>
-                    <p><strong>L'équipe CI</strong></p>
-                  </div>
-                </body>
-              </html>
-            to: charlesdevif@hotmail.fr
-            from: ${{ secrets.EMAIL_USERNAME }}
+      - name: Notification par e-mail
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: 'CI Test Result for Backup Script'
+          body: |
+            Les tests CI pour le script de sauvegarde sont terminés.
+            Consultez l'onglet Actions pour les détails.
+          to: cedric.surquin@gmail.com
+          from: ${{ secrets.EMAIL_USERNAME }}
+          secure: true
